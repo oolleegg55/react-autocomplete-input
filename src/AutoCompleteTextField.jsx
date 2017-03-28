@@ -14,6 +14,8 @@ const OPTION_LIST_Y_OFFSET = 10;
 const OPTION_LIST_MIN_WIDTH = 100;
 
 const propTypes = {
+  Wrapper: PropTypes.string,
+  wrapperClass: PropTypes.string,
   Component: PropTypes.string,
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
@@ -31,6 +33,8 @@ const propTypes = {
 };
 
 const defaultProps = {
+  Wrapper: 'span',
+  wrapperClass: '',
   Component: 'textarea',
   defaultValue: '',
   disabled: false,
@@ -326,7 +330,7 @@ class AutocompleteTextField extends React.Component {
   /* eslint-enable jsx-a11y/no-static-element-interactions */
 
   render() {
-    const { Component, defaultValue, disabled, value, ...rest } = this.props;
+    const { Wrapper, wrapperClass, Component, defaultValue, disabled, value, children, ...rest } = this.props;
 
     const propagated = Object.assign({}, rest);
     Object.keys(this.constructor.propTypes).forEach((k) => { delete propagated[k]; });
@@ -342,7 +346,7 @@ class AutocompleteTextField extends React.Component {
     }
 
     return (
-      <span>
+      <Wrapper className={wrapperClass}>
         <Component
           disabled={disabled}
           onBlur={this.handleBlur}
@@ -353,7 +357,8 @@ class AutocompleteTextField extends React.Component {
           {...propagated}
         />
         {this.renderAutocompleteList()}
-      </span>
+        {children}
+      </Wrapper>
     );
   }
 }
